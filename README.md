@@ -57,3 +57,35 @@ npm i class-transformer reflect-metadata
 
 - `src/pages/_app.tsx`: import `reflect-metadata`
 - `tsconfig.json`: set `experimentalDecorators` to `true`
+
+## Server
+
+```bash
+nest new server --strict
+```
+
+- delete `.git`, `README.md`, `src/app.controller.ts`, `src/app.controller.spec.ts`, `src/app.service.ts`
+- `.eslintrc.js`: add prettier to rules
+- `spec` to `test`
+  - `package.json`: edit `testRegex`
+  - `tsconfig.build.json`: edit `exclude`
+
+### Fastify
+
+```bash
+npm i @nestjs/platform-fastify
+```
+
+- [use the FastifyAdapter](https://docs.nestjs.com/techniques/performance#adapter)
+
+### PostgreSQL/TypeORM
+
+```bash
+npm i @nestjs/typeorm typeorm typeorm-naming-strategies pg
+```
+
+- [import TypeOrmModule](https://docs.nestjs.com/techniques/database)
+- [optional] `typeorm-naming-strategies`
+  - install so can use snake case in PostgreSQL
+  - set `TypeOrmModule` `namingStrategy` to `SnakeNamingStrategy`
+

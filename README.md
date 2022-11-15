@@ -2,7 +2,40 @@
 
 Next.js, Tailwind CSS, Nest.js, and PostgreSQL.
 
-## Client
+## Commands
+
+Start the client:
+
+```bash
+cd client
+npm run dev
+```
+
+Start the server:
+
+```bash
+cd server
+npm run start:dev
+```
+
+Restore the database:
+
+```bash
+cd db
+./run.sh restore
+```
+
+Generate models for TypeORM from database:
+
+```bash
+cd db
+./run.sh generate-models
+```
+
+> - [typeorm-model-generator](https://www.npmjs.com/package/typeorm-model-generator) is used
+> - the models will be outputted to `db/generated-models`
+
+## Client setup
 
 ```bash
 npx create-next-app client --ts --eslint
@@ -58,7 +91,7 @@ npm i class-transformer reflect-metadata
 - `src/pages/_app.tsx`: import `reflect-metadata`
 - `tsconfig.json`: set `experimentalDecorators` to `true`
 
-## Server
+## Server setup
 
 ```bash
 nest new server --strict

@@ -21,7 +21,7 @@ export class TypeOrmConfig implements TypeOrmOptionsFactory {
     return {
       type: "postgres",
       url,
-      entities: [__dirname + "src/**/*.entity.ts"],
+      entities: [__dirname + "/../**/*.entity.js"],
       namingStrategy: new SnakeNamingStrategy(),
     };
   }

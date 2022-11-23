@@ -139,7 +139,3 @@ npm i -D cross-env
 - [optional] [`cross-env`](https://www.npmjs.com/package/cross-env)
   - install so setting environment variables in scripts runs across platforms
   - `package.json`: set `NODE_ENV` to `development` for the `start:dev` script
-
-### TODO
-
-- handle database migrations ([Nest](https://docs.nestjs.com/techniques/database#migrations), [TypeORM](https://typeorm.io/migrations#creating-a-new-migration))

@@ -1,17 +1,14 @@
+import { createMock } from "@golevelup/ts-jest";
 import { NotFoundException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
+import { DeleteResult, Repository } from "typeorm";
 import { Example } from "./example.entity";
 import { ExamplesService } from "./examples.service";
 
-const mockRepo = {
-  delete: jest.fn(),
-  find: jest.fn(),
-  findOne: jest.fn(),
-};
-
 describe("ExamplesService", () => {
   let service: ExamplesService;
+  const mockRepo = createMock<Repository<Example>>();
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -36,7 +33,7 @@ describe("ExamplesService", () => {
   describe("delete", () => {
     test("delete result affected undefined", async () => {
       const id = "id";
-      const deleteResult = { affected: undefined };
+      const deleteResult: DeleteResult = { affected: undefined, raw: null };
       mockRepo.delete.mockResolvedValue(deleteResult);
 
       await expect(service.delete(id)).rejects.toBeInstanceOf(
@@ -46,7 +43,7 @@ describe("ExamplesService", () => {
 
     test("delete result affected null", async () => {
       const id = "id";
-      const deleteResult = { affected: null };
+      const deleteResult: DeleteResult = { affected: null, raw: null };
       mockRepo.delete.mockResolvedValue(deleteResult);
 
       await expect(service.delete(id)).rejects.toBeInstanceOf(
@@ -56,10 +53,10 @@ describe("ExamplesService", () => {
 
     test("delete result affected equals one", async () => {
       const id = "id";
-      const deleteResult = { affected: 1 };
+      const deleteResult: DeleteResult = { affected: 1, raw: null };
       const deleteSpy = jest
         .spyOn(mockRepo, "delete")
-        .mockImplementation(() => deleteResult);
+        .mockImplementation(() => Promise.resolve(deleteResult));
 
       await service.delete(id);
 
@@ -73,7 +70,7 @@ describe("ExamplesService", () => {
       const data: Example[] = [];
       const findSpy = jest
         .spyOn(mockRepo, "find")
-        .mockImplementation(() => data);
+        .mockImplementation(() => Promise.resolve(data));
 
       const actual = await service.findAll();
 
@@ -86,7 +83,7 @@ describe("ExamplesService", () => {
       const data: Example[] = [new Example(), new Example(), new Example()];
       const findSpy = jest
         .spyOn(mockRepo, "find")
-        .mockImplementation(() => data);
+        .mockImplementation(() => Promise.resolve(data));
 
       const actual = await service.findAll();
 
@@ -102,7 +99,7 @@ describe("ExamplesService", () => {
       const data: Example | null = null;
       const findOneSpy = jest
         .spyOn(mockRepo, "findOne")
-        .mockImplementation(() => data);
+        .mockImplementation(() => Promise.resolve(data));
 
       const actual = await service.findOne(id);
 
@@ -116,7 +113,7 @@ describe("ExamplesService", () => {
       const data: Example | null = new Example();
       const findOneSpy = jest
         .spyOn(mockRepo, "findOne")
-        .mockImplementation(() => data);
+        .mockImplementation(() => Promise.resolve(data));
 
       const actual = await service.findOne(id);
 

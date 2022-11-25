@@ -144,7 +144,8 @@ npm i -D cross-env
 
 ```bash
 npm i validator
-npm i -D @types/validator
+npm i -D @types/validator @golevelup/ts-jest
 ```
 
 - [validator](https://www.npmjs.com/package/validator)
+- [@golevelup/ts-jest](https://www.npmjs.com/package/@golevelup/ts-jest)

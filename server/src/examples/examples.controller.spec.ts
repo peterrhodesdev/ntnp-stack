@@ -1,16 +1,12 @@
 import { Test, TestingModule } from "@nestjs/testing";
+import { createMock } from "@golevelup/ts-jest";
 import { Example } from "./example.entity";
 import { ExamplesController } from "./examples.controller";
 import { ExamplesService } from "./examples.service";
 
-const mockService = {
-  delete: jest.fn(),
-  findAll: jest.fn(),
-  findOne: jest.fn(),
-};
-
 describe("ExamplesController", () => {
   let controller: ExamplesController;
+  const mockService = createMock<ExamplesService>();
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -36,7 +32,7 @@ describe("ExamplesController", () => {
     const id = "id";
     const deleteSpy = jest
       .spyOn(mockService, "delete")
-      .mockImplementation(() => undefined);
+      .mockImplementation(() => Promise.resolve());
 
     await controller.delete(id);
 
@@ -49,7 +45,7 @@ describe("ExamplesController", () => {
       const data: Example[] = [];
       const findAllSpy = jest
         .spyOn(mockService, "findAll")
-        .mockImplementation(() => data);
+        .mockImplementation(() => Promise.resolve(data));
 
       const actual = await controller.getAll();
 
@@ -62,7 +58,7 @@ describe("ExamplesController", () => {
       const data: Example[] = [new Example(), new Example(), new Example()];
       const findAllSpy = jest
         .spyOn(mockService, "findAll")
-        .mockImplementation(() => data);
+        .mockImplementation(() => Promise.resolve(data));
 
       const actual = await controller.getAll();
 
@@ -78,7 +74,7 @@ describe("ExamplesController", () => {
       const data: Example | null = null;
       const findOneSpy = jest
         .spyOn(mockService, "findOne")
-        .mockImplementation(() => data);
+        .mockImplementation(() => Promise.resolve(data));
 
       const actual = await controller.getOne(id);
 
@@ -92,7 +88,7 @@ describe("ExamplesController", () => {
       const data: Example | null = new Example();
       const findOneSpy = jest
         .spyOn(mockService, "findOne")
-        .mockImplementation(() => data);
+        .mockImplementation(() => Promise.resolve(data));
 
       const actual = await controller.getOne(id);
 

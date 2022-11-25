@@ -1,13 +1,11 @@
-import { NotFoundException } from "@nestjs/common";
+import { createMock } from "@golevelup/ts-jest";
+import { CallHandler, NotFoundException } from "@nestjs/common";
 import { of } from "rxjs";
 import { NotFoundInterceptor } from "./not-found.interceptor";
 
-const mockCallHandler = {
-  handle: jest.fn(),
-};
-
 describe("ValidateIdParamInterceptor", () => {
   let interceptor: NotFoundInterceptor;
+  const mockCallHandler = createMock<CallHandler>();
 
   beforeEach(() => {
     interceptor = new NotFoundInterceptor("error message");

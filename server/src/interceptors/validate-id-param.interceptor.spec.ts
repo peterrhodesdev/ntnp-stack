@@ -1,13 +1,11 @@
-import { BadRequestException } from "@nestjs/common";
+import { createMock } from "@golevelup/ts-jest";
+import { BadRequestException, CallHandler } from "@nestjs/common";
 import { of } from "rxjs";
 import { ValidateIdParamInterceptor } from "./validate-id-param.interceptor";
 
-const mockCallHandler = {
-  handle: jest.fn(),
-};
-
 describe("ValidateIdParamInterceptor", () => {
   let interceptor: ValidateIdParamInterceptor;
+  const mockCallHandler = createMock<CallHandler>();
   let callHandlerSpy: any;
 
   beforeEach(() => {

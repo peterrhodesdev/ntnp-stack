@@ -140,12 +140,18 @@ npm i -D cross-env
   - install so setting environment variables in scripts runs across platforms
   - `package.json`: set `NODE_ENV` to `development` for the `start:dev` script
 
+### Validation
+
+```bash
+npm i class-transformer class-validator @nestjs/mapped-types
+```
+
+- [`main.ts`: auto validate](https://docs.nestjs.com/techniques/validation#auto-validation)
+
 ### Other
 
 ```bash
-npm i validator
-npm i -D @types/validator @golevelup/ts-jest
+npm i -D @golevelup/ts-jest
 ```
 
-- [validator](https://www.npmjs.com/package/validator)
 - [@golevelup/ts-jest](https://www.npmjs.com/package/@golevelup/ts-jest)

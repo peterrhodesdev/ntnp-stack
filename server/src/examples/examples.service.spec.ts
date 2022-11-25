@@ -3,6 +3,7 @@ import { NotFoundException } from "@nestjs/common";
 import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { DeleteResult, Repository } from "typeorm";
+import { GetExampleDto } from "./dtos/get-example.dto";
 import { Example } from "./example.entity";
 import { ExamplesService } from "./examples.service";
 
@@ -75,7 +76,7 @@ describe("ExamplesService", () => {
       const actual = await service.findAll();
 
       expect(actual).toHaveLength(0);
-      expect(actual).toEqual(data);
+      expect(actual).toEqual([]);
       expect(findSpy).toHaveBeenCalledTimes(1);
     });
 
@@ -88,7 +89,7 @@ describe("ExamplesService", () => {
       const actual = await service.findAll();
 
       expect(actual).toHaveLength(3);
-      expect(actual).toEqual(data);
+      expect(actual[0]).toBeInstanceOf(GetExampleDto);
       expect(findSpy).toHaveBeenCalledTimes(1);
     });
   });
@@ -117,7 +118,7 @@ describe("ExamplesService", () => {
 
       const actual = await service.findOne(id);
 
-      expect(actual).toEqual(data);
+      expect(actual).toBeInstanceOf(GetExampleDto);
       expect(findOneSpy).toHaveBeenCalledTimes(1);
       expect(findOneSpy).toHaveBeenCalledWith({ where: { id } });
     });

@@ -8,8 +8,8 @@ import {
   UseInterceptors,
 } from "@nestjs/common";
 import { NotFoundInterceptor } from "../interceptors/not-found.interceptor";
-import { ValidateIdParamInterceptor } from "../interceptors/validate-id-param.interceptor";
-import { Example } from "./example.entity";
+import { GetExampleDto } from "./dtos/get-example.dto";
+import { IdParam } from "./dtos/id-param";
 import { ExamplesService } from "./examples.service";
 
 @Controller("examples")
@@ -17,23 +17,19 @@ export class ExamplesController {
   constructor(private examplesService: ExamplesService) {}
 
   @Delete(":id")
-  @UseInterceptors(new ValidateIdParamInterceptor())
   @HttpCode(HttpStatus.NO_CONTENT)
-  async delete(@Param("id") id: string) {
-    await this.examplesService.delete(id);
+  delete(@Param() params: IdParam) {
+    this.examplesService.delete(params.id);
   }
 
   @Get()
-  async getAll(): Promise<Example[]> {
+  getAll(): Promise<GetExampleDto[]> {
     return this.examplesService.findAll();
   }
 
   @Get(":id")
-  @UseInterceptors(
-    new ValidateIdParamInterceptor(),
-    new NotFoundInterceptor("No example found for given id"),
-  )
-  async getOne(@Param("id") id: string): Promise<Example | null> {
-    return await this.examplesService.findOne(id);
+  @UseInterceptors(new NotFoundInterceptor("No example found for given id"))
+  getOne(@Param() params: IdParam): Promise<GetExampleDto | null> {
+    return this.examplesService.findOne(params.id);
   }
 }

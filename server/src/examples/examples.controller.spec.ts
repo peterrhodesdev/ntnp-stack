@@ -1,8 +1,8 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { createMock } from "@golevelup/ts-jest";
-import { Example } from "./example.entity";
 import { ExamplesController } from "./examples.controller";
 import { ExamplesService } from "./examples.service";
+import { GetExampleDto } from "./dtos/get-example.dto";
 
 describe("ExamplesController", () => {
   let controller: ExamplesController;
@@ -34,7 +34,7 @@ describe("ExamplesController", () => {
       .spyOn(mockService, "delete")
       .mockImplementation(() => Promise.resolve());
 
-    await controller.delete(id);
+    await controller.delete({ id });
 
     expect(deleteSpy).toHaveBeenCalledTimes(1);
     expect(deleteSpy).toHaveBeenCalledWith(id);
@@ -42,7 +42,7 @@ describe("ExamplesController", () => {
 
   describe("get all", () => {
     test("service returns empty array", async () => {
-      const data: Example[] = [];
+      const data: GetExampleDto[] = [];
       const findAllSpy = jest
         .spyOn(mockService, "findAll")
         .mockImplementation(() => Promise.resolve(data));
@@ -55,7 +55,11 @@ describe("ExamplesController", () => {
     });
 
     test("service returns non-empty array", async () => {
-      const data: Example[] = [new Example(), new Example(), new Example()];
+      const data: GetExampleDto[] = [
+        new GetExampleDto(),
+        new GetExampleDto(),
+        new GetExampleDto(),
+      ];
       const findAllSpy = jest
         .spyOn(mockService, "findAll")
         .mockImplementation(() => Promise.resolve(data));
@@ -71,12 +75,12 @@ describe("ExamplesController", () => {
   describe("get one", () => {
     test("service returns null", async () => {
       const id = "id";
-      const data: Example | null = null;
+      const data: GetExampleDto | null = null;
       const findOneSpy = jest
         .spyOn(mockService, "findOne")
         .mockImplementation(() => Promise.resolve(data));
 
-      const actual = await controller.getOne(id);
+      const actual = await controller.getOne({ id });
 
       expect(actual).toBeNull();
       expect(findOneSpy).toHaveBeenCalledTimes(1);
@@ -85,12 +89,12 @@ describe("ExamplesController", () => {
 
     test("service returns one", async () => {
       const id = "id";
-      const data: Example | null = new Example();
+      const data: GetExampleDto | null = new GetExampleDto();
       const findOneSpy = jest
         .spyOn(mockService, "findOne")
         .mockImplementation(() => Promise.resolve(data));
 
-      const actual = await controller.getOne(id);
+      const actual = await controller.getOne({ id });
 
       expect(actual).toEqual(data);
       expect(findOneSpy).toHaveBeenCalledTimes(1);

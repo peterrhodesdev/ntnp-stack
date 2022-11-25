@@ -6,6 +6,7 @@ import {
 import { AppModule } from "./app.module";
 import { ConfigService } from "@nestjs/config";
 import { intValue, stringArray } from "./utils/env.utils";
+import { ValidationPipe } from "@nestjs/common";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -22,6 +23,9 @@ async function bootstrap() {
     origin: corsOrigin,
     methods: corsMethods,
   });
+  app.useGlobalPipes(
+    new ValidationPipe({ disableErrorMessages: true, transform: true }),
+  );
   await app.listen(port);
 }
 bootstrap();

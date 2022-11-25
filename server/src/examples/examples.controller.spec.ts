@@ -3,8 +3,10 @@ import { Example } from "./example.entity";
 import { ExamplesController } from "./examples.controller";
 import { ExamplesService } from "./examples.service";
 
-const mockedService = {
+const mockService = {
+  delete: jest.fn(),
   findAll: jest.fn(),
+  findOne: jest.fn(),
 };
 
 describe("ExamplesController", () => {
@@ -16,7 +18,7 @@ describe("ExamplesController", () => {
       providers: [
         {
           provide: ExamplesService,
-          useValue: mockedService,
+          useValue: mockService,
         },
       ],
     }).compile();
@@ -30,16 +32,73 @@ describe("ExamplesController", () => {
     expect(controller).toBeDefined();
   });
 
-  test("get all", async () => {
-    const data: Example[] = [];
-    const findAllSpy = jest
-      .spyOn(mockedService, "findAll")
-      .mockImplementation(() => data);
+  test("delete", async () => {
+    const id = "id";
+    const deleteSpy = jest
+      .spyOn(mockService, "delete")
+      .mockImplementation(() => undefined);
 
-    const actual = await controller.getAll();
+    await controller.delete(id);
 
-    expect(actual).toHaveLength(0);
-    expect(actual).toEqual(data);
-    expect(findAllSpy).toHaveBeenCalledTimes(1);
+    expect(deleteSpy).toHaveBeenCalledTimes(1);
+    expect(deleteSpy).toHaveBeenCalledWith(id);
+  });
+
+  describe("get all", () => {
+    test("service returns empty array", async () => {
+      const data: Example[] = [];
+      const findAllSpy = jest
+        .spyOn(mockService, "findAll")
+        .mockImplementation(() => data);
+
+      const actual = await controller.getAll();
+
+      expect(actual).toHaveLength(0);
+      expect(actual).toEqual(data);
+      expect(findAllSpy).toHaveBeenCalledTimes(1);
+    });
+
+    test("service returns non-empty array", async () => {
+      const data: Example[] = [new Example(), new Example(), new Example()];
+      const findAllSpy = jest
+        .spyOn(mockService, "findAll")
+        .mockImplementation(() => data);
+
+      const actual = await controller.getAll();
+
+      expect(actual).toHaveLength(3);
+      expect(actual).toEqual(data);
+      expect(findAllSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("get one", () => {
+    test("service returns null", async () => {
+      const id = "id";
+      const data: Example | null = null;
+      const findOneSpy = jest
+        .spyOn(mockService, "findOne")
+        .mockImplementation(() => data);
+
+      const actual = await controller.getOne(id);
+
+      expect(actual).toBeNull();
+      expect(findOneSpy).toHaveBeenCalledTimes(1);
+      expect(findOneSpy).toHaveBeenCalledWith(id);
+    });
+
+    test("service returns one", async () => {
+      const id = "id";
+      const data: Example | null = new Example();
+      const findOneSpy = jest
+        .spyOn(mockService, "findOne")
+        .mockImplementation(() => data);
+
+      const actual = await controller.getOne(id);
+
+      expect(actual).toEqual(data);
+      expect(findOneSpy).toHaveBeenCalledTimes(1);
+      expect(findOneSpy).toHaveBeenCalledWith(id);
+    });
   });
 });

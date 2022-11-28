@@ -5,9 +5,9 @@ import {
 } from "@nestjs/platform-fastify";
 import { AppModule } from "./app.module";
 import { ConfigService } from "@nestjs/config";
-import { intValue, stringArray } from "./utils/env.utils";
+import { intValue, stringArray } from "./common/utils/env.utils";
 import { ValidationPipe } from "@nestjs/common";
-import { GlobalInternalErrorInterceptor } from "./interceptors/global-internal-error.interceptor";
+import { GlobalInternalErrorInterceptor } from "./common/interceptors/global-internal-error.interceptor";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(

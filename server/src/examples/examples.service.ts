@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { IdNotFoundException } from "../exceptions/id-not-found.exception";
-import { entityToDtoRemovePk } from "../utils/service.utils";
+import { IdNotFoundException } from "../common/exceptions/id-not-found.exception";
+import { entityToDtoRemovePk } from "../common/utils/service.utils";
 import { CreateExampleDto } from "./dtos/create-example.dto";
 import { GetExampleDto } from "./dtos/get-example.dto";
 import { UpdateFullExampleDto } from "./dtos/update-full-example.dto";

@@ -2,7 +2,7 @@ import { createMock } from "@golevelup/ts-jest";
 import { Test, TestingModule } from "@nestjs/testing";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { DeleteResult, Repository, UpdateResult } from "typeorm";
-import { IdNotFoundException } from "../exceptions/id-not-found.exception";
+import { IdNotFoundException } from "../common/exceptions/id-not-found.exception";
 import { CreateExampleDto } from "./dtos/create-example.dto";
 import { GetExampleDto } from "./dtos/get-example.dto";
 import { UpdateFullExampleDto } from "./dtos/update-full-example.dto";

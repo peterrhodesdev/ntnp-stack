@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { getPropertyName } from "../utils/ts.utils";
+import { getPropertyName } from "../common/utils/ts.utils";
 import { RelationshipOneToMany } from "./relationship-one-to-many.entity";
 
 const ALIAS_RELATIONSHIP_ONE_TO_MANY = "rotm";

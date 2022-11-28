@@ -19,9 +19,6 @@ export class CreateExampleDto {
   @IsNumber()
   floatField: number;
 
-  // TODO:
-  // - dto.utils.ts intMinMessage(field: string): string
-  // - custom decorator: IntBetween
   @IsInt()
   @Min(10, {
     message:

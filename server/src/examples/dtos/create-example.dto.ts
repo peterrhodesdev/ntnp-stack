@@ -34,7 +34,7 @@ export class CreateExampleDto {
   integerConstrainedField: number;
 
   @IsNumber()
-  numericField: string;
+  numericField: number;
 
   @IsOptional()
   @IsString()

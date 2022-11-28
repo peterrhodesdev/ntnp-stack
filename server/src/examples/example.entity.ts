@@ -1,4 +1,5 @@
 import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import { ColumnNumericTransformer } from "../transformers/column-numeric.transformer";
 
 @Index("example_id_key", ["id"], { unique: true })
 @Index("example_pkey", ["pk"], { unique: true })
@@ -23,8 +24,11 @@ export class Example {
   @Column("integer", { name: "integer_constrained_field" })
   integerConstrainedField: number;
 
-  @Column("numeric", { name: "numeric_field" })
-  numericField: string;
+  @Column("numeric", {
+    name: "numeric_field",
+    transformer: new ColumnNumericTransformer(),
+  })
+  numericField: number;
 
   @Column("text", { name: "text_nullable_field", nullable: true })
   textNullableField: string | null;

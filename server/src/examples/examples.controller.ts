@@ -9,9 +9,7 @@ import {
   Patch,
   Post,
   Put,
-  UseInterceptors,
 } from "@nestjs/common";
-import { NotFoundInterceptor } from "../interceptors/not-found.interceptor";
 import { CreateExampleDto } from "./dtos/create-example.dto";
 import { GetExampleDto } from "./dtos/get-example.dto";
 import { IdParam } from "./dtos/id-param";
@@ -25,8 +23,8 @@ export class ExamplesController {
 
   @Delete(":id")
   @HttpCode(HttpStatus.NO_CONTENT)
-  delete(@Param() params: IdParam): void {
-    this.examplesService.delete(params.id);
+  delete(@Param() params: IdParam): Promise<void> {
+    return this.examplesService.delete(params.id);
   }
 
   @Get()
@@ -35,8 +33,7 @@ export class ExamplesController {
   }
 
   @Get(":id")
-  @UseInterceptors(new NotFoundInterceptor("No entity found for given id"))
-  getOne(@Param() params: IdParam): Promise<GetExampleDto | null> {
+  getOne(@Param() params: IdParam): Promise<GetExampleDto> {
     return this.examplesService.findOne(params.id);
   }
 
@@ -45,8 +42,11 @@ export class ExamplesController {
   patch(
     @Param() params: IdParam,
     @Body() updatePartialExampleDto: UpdatePartialExampleDto,
-  ): void {
-    this.examplesService.updatePartial(params.id, updatePartialExampleDto);
+  ): Promise<void> {
+    return this.examplesService.updatePartial(
+      params.id,
+      updatePartialExampleDto,
+    );
   }
 
   @Post()
@@ -59,7 +59,7 @@ export class ExamplesController {
   put(
     @Param() params: IdParam,
     @Body() updateFullExampleDto: UpdateFullExampleDto,
-  ): void {
-    this.examplesService.updateFull(params.id, updateFullExampleDto);
+  ): Promise<void> {
+    return this.examplesService.updateFull(params.id, updateFullExampleDto);
   }
 }

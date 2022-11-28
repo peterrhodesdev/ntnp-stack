@@ -1,6 +1,7 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { IdNotFoundException } from "../exceptions/id-not-found.exception";
 import { entityToDtoRemovePk } from "../utils/service.utils";
 import { CreateExampleDto } from "./dtos/create-example.dto";
 import { GetExampleDto } from "./dtos/get-example.dto";
@@ -22,7 +23,7 @@ export class ExamplesService {
 
   async delete(id: string): Promise<void> {
     const deleteResult = await this.examplesRepository.delete({ id });
-    if (deleteResult.affected === 0) throw new NotFoundException();
+    if (deleteResult.affected !== 1) throw new IdNotFoundException(id);
   }
 
   async findAll(): Promise<GetExampleDto[]> {
@@ -30,9 +31,9 @@ export class ExamplesService {
     return entities.map((entity) => entityToDtoRemovePk(GetExampleDto, entity));
   }
 
-  async findOne(id: string): Promise<GetExampleDto | null> {
+  async findOne(id: string): Promise<GetExampleDto> {
     const entity = await this.examplesRepository.findOne({ where: { id } });
-    if (entity === null) return null;
+    if (entity === null) throw new IdNotFoundException(id);
     return entityToDtoRemovePk(GetExampleDto, entity);
   }
 
@@ -40,7 +41,7 @@ export class ExamplesService {
     id: string,
     updateFullDto: UpdateFullExampleDto,
   ): Promise<void> {
-    this.updatePartial(id, updateFullDto);
+    return this.updatePartial(id, updateFullDto);
   }
 
   async updatePartial(
@@ -51,6 +52,6 @@ export class ExamplesService {
       { id },
       updatePartialDto,
     );
-    if (updateResult.affected === 0) throw new NotFoundException();
+    if (updateResult.affected !== 1) throw new IdNotFoundException(id);
   }
 }

@@ -24,7 +24,10 @@ async function bootstrap() {
     methods: corsMethods,
   });
   app.useGlobalPipes(
-    new ValidationPipe({ disableErrorMessages: true, transform: true }),
+    new ValidationPipe({
+      disableErrorMessages: process.env.NODE_ENV !== "development",
+      transform: true,
+    }),
   );
   await app.listen(port);
 }

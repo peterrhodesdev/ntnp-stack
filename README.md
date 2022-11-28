@@ -42,6 +42,32 @@ cd db
 > - [`typeorm-model-generator`](https://www.npmjs.com/package/typeorm-model-generator) is used
 > - the models will be outputted to `db/generated-models`
 
+## API endpoints
+
+```bash
+# Get all
+curl -X GET http://localhost:5000/examples
+# Get one by id
+curl -X GET http://localhost:5000/examples/{id}
+# Delete
+curl -X DELETE http://localhost:5000/examples/{id}
+# Create
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"booleanField":true,"floatField":1.2,"integerConstrainedField":345,"numericField":6.7,"textNullableField":null,"timestamptzField":"2022-11-26T07:12:03.103Z","varcharConstrainedField":"abc"}' \
+  http://localhost:5000/examples
+# Update (full)
+curl -X PUT \
+  -H "Content-Type: application/json" \
+  -d '{"booleanField":false,"floatField":-1.2,"integerConstrainedField":999,"numericField":-3.4E+2,"textNullableField":"\"\\\/","timestamptzField":"2022-11-26T07:12:03.103Z","varcharConstrainedField":"abcdef"}' \
+  http://localhost:5000/examples/{id}
+# Update (partial)
+curl -X PATCH \
+  -H "Content-Type: application/json" \
+  -d '{"booleanField":false}' \
+  http://localhost:5000/examples/{id}
+```
+
 ## Client setup
 
 ```bash

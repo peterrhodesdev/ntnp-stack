@@ -4,10 +4,11 @@ Next.js, Tailwind CSS, Nest.js, and PostgreSQL.
 
 ## Setup
 
-- `server/.env.example`
+- `server/.env.example`:
   - copy to `server/.env.development`
   - delete either the DB connection options variable group (`DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT`, `DB_NAME`) or the DB connection string variable (`DB_URL`)
   - fill in the connection option for `DB_PASSWORD` or replace `$DB_PASSWORD` in the connection string
+- `client/src/pages/_app.tsx`: edit `TITLE` to set the default page title and the left text in the header
 
 ## Commands
 
@@ -98,9 +99,10 @@ npm i -D jest jest-environment-jsdom @testing-library/react @testing-library/jes
 ```
 
 - [create `jest.config.js`](https://nextjs.org/docs/testing#setting-up-jest-with-the-rust-compiler)
-- create `src/setupTests.ts` ([Optional: Extend Jest with custom matchers](https://nextjs.org/docs/testing#setting-up-jest-with-babel))
+- create `jest.setup.ts` ([Optional: Extend Jest with custom matchers](https://nextjs.org/docs/testing#setting-up-jest-with-babel))
 - `package.json`: add `test` script
 - `next.config.js`: [remove react properties used for tests](https://nextjs.org/docs/advanced-features/compiler#remove-react-properties)
+- create a `__tests__/pages` directory for pages tests (any files in the `src/pages` directory are considered routes)
 
 ### [Tailwind CSS](https://tailwindcss.com/)
 

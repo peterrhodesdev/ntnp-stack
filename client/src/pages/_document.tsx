@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html>
       <Head />
-      <body className="p-8 prose prose-sm prose-slate max-w-none">
+      <body>
         <Main />
         <NextScript />
       </body>

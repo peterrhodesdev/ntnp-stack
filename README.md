@@ -113,7 +113,7 @@ npx tailwindcss init -p
 
 - [follow the guide](https://tailwindcss.com/docs/guides/nextjs)
 - [optional] [`@tailwindcss/typography`](https://www.npmjs.com/package/@tailwindcss/typography)
-  - install so can use the `prose` class
+  - so can use the `prose` class
   - add `prose` class to `src/pages/_document.tsx`
 
 ### [class-transformer](https://www.npmjs.com/package/class-transformer)
@@ -124,6 +124,19 @@ npm i class-transformer reflect-metadata
 
 - `src/pages/_app.tsx`: import `reflect-metadata`
 - `tsconfig.json`: set `experimentalDecorators` to `true`
+
+### Other
+
+```bash
+npm i validator
+npm i -D @types/validator
+```
+
+- [validator](https://www.npmjs.com/package/validator): validate/sanitize strings
+- [next-transpile-modules](https://www.npmjs.com/package/next-transpile-modules)
+  - to use tree-shakeable ES imports
+  - [edit next.config.js](https://github.com/martpie/next-transpile-modules#examples)
+  - will also require [ts-jest](https://www.npmjs.com/package/ts-jest) to be [configured](https://stackoverflow.com/a/61785012/4545255) for tests to run
 
 ## Server setup
 
@@ -153,7 +166,7 @@ npm i @nestjs/typeorm typeorm typeorm-naming-strategies pg
 
 - [import TypeOrmModule](https://docs.nestjs.com/techniques/database)
 - [optional] [`typeorm-naming-strategies`](https://www.npmjs.com/package/typeorm-naming-strategies)
-  - install so can use snake case in PostgreSQL
+  - so can use snake case in PostgreSQL
   - set `TypeOrmModule` `namingStrategy` to `SnakeNamingStrategy`
 
 ### Configuration
@@ -165,7 +178,7 @@ npm i -D cross-env
 
 - create a [.env file](https://docs.nestjs.com/techniques/configuration#getting-started)
 - [optional] [`cross-env`](https://www.npmjs.com/package/cross-env)
-  - install so setting environment variables in scripts runs across platforms
+  - so setting environment variables in scripts runs across platforms
   - `package.json`: set `NODE_ENV` to `development` for the `start:dev` script
 
 ### Validation
@@ -182,4 +195,4 @@ npm i class-transformer class-validator @nestjs/mapped-types
 npm i -D @golevelup/ts-jest
 ```
 
-- [@golevelup/ts-jest](https://www.npmjs.com/package/@golevelup/ts-jest)
+- [@golevelup/ts-jest](https://www.npmjs.com/package/@golevelup/ts-jest): create mocks for testing

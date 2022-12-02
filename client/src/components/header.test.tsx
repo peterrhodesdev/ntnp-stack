@@ -13,13 +13,13 @@ describe("header", () => {
     expect(titleElement).toBeInTheDocument();
   });
 
-  test("renders a link to home", () => {
+  test("renders links", () => {
     render(<Header title={title} />);
+    const links = screen.getAllByRole("link");
+    const linkTexts = links.map((link) => link.textContent);
 
-    const link = screen.getByRole("link", {
-      name: /home/i,
-    });
-
-    expect(link).toBeInTheDocument();
+    expect(links).toHaveLength(2);
+    expect(linkTexts.find((text) => text?.match(/home/i))).toBeDefined();
+    expect(linkTexts.find((text) => text?.match(/examples/i))).toBeDefined();
   });
 });

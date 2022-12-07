@@ -4,34 +4,46 @@ import * as httpService from "./http.service";
 const SERVER_API_URL =
   process.env.NEXT_PUBLIC_SERVER_API_URL ?? "http://localhost:5000";
 
-export async function del(id: string): Promise<void> {
-  return httpService.del(SERVER_API_URL, id);
-}
+export default class ServerApiService {
+  private resource: string;
 
-export async function getMany<T>(
-  cls: ClassConstructor<T> | undefined = undefined,
-): Promise<T[]> {
-  return httpService.getMany(SERVER_API_URL, cls);
-}
+  constructor(resource: string) {
+    this.resource = resource;
+  }
 
-export async function getOne<T>(
-  id: string,
-  cls: ClassConstructor<T> | undefined = undefined,
-): Promise<T> {
-  return httpService.getOne(SERVER_API_URL, id, cls);
-}
+  private url(): string {
+    return `${SERVER_API_URL}/${this.resource}`;
+  }
 
-export async function patch<T>(id: string, t: T): Promise<void> {
-  return httpService.patch(SERVER_API_URL, id, t);
-}
+  async delete(id: string): Promise<void> {
+    return httpService.del(this.url(), id);
+  }
 
-export async function post<T, U>(
-  t: T,
-  cls: ClassConstructor<U> | undefined = undefined,
-): Promise<U> {
-  return httpService.post(SERVER_API_URL, t, cls);
-}
+  async getMany<T>(
+    cls: ClassConstructor<T> | undefined = undefined,
+  ): Promise<T[]> {
+    return httpService.getMany(this.url(), cls);
+  }
 
-export async function put<T>(id: string, t: T): Promise<void> {
-  return httpService.put(SERVER_API_URL, id, t);
+  async getOne<T>(
+    id: string,
+    cls: ClassConstructor<T> | undefined = undefined,
+  ): Promise<T> {
+    return httpService.getOne(this.url(), id, cls);
+  }
+
+  async patch<T>(id: string, t: T): Promise<void> {
+    return httpService.patch(this.url(), id, t);
+  }
+
+  async post<T, U>(
+    t: T,
+    cls: ClassConstructor<U> | undefined = undefined,
+  ): Promise<U> {
+    return httpService.post(this.url(), t, cls);
+  }
+
+  async put<T>(id: string, t: T): Promise<void> {
+    return httpService.put(this.url(), id, t);
+  }
 }

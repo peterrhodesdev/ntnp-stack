@@ -125,6 +125,14 @@ npm i class-transformer reflect-metadata
 - `src/pages/_app.tsx`: import `reflect-metadata`
 - `tsconfig.json`: set `experimentalDecorators` to `true`
 
+### [React Query](https://www.npmjs.com/package/react-query)
+
+```bash
+npm i react-query
+```
+
+- `src/pages/_app.tsx`: [instantiate `QueryClient` and provide it in component tree](https://tanstack.com/query/v4/docs/overview#enough-talk-show-me-some-code-already)
+
 ### Other
 
 ```bash

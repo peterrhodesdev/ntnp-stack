@@ -1,19 +1,59 @@
-import { entityToDtoRemovePk } from "./service.utils";
+import { removePk } from "./service.utils";
 
-describe("entity to DTO removing primary key", () => {
-  test("removes pk property", () => {
-    const entity = {
-      pk: "pk",
+describe("remove primary key", () => {
+  test("empty class", () => {
+    class TestClass {}
+    const obj: TestClass = {};
+
+    const actual = removePk(obj, TestClass);
+
+    expect(actual).toEqual(obj);
+  });
+
+  test("no pk property", () => {
+    class TestClass {
+      arrayField: number[];
+      booleanField: boolean;
+      objectField: object;
+      numberField: number;
+      stringField: string;
+    }
+    const obj: TestClass = {
+      arrayField: [1, 2, 3],
+      booleanField: true,
+      objectField: { child: "" },
+      numberField: 0,
+      stringField: "",
     };
-    class dto {}
 
-    const actual = entityToDtoRemovePk(dto, entity);
+    const actual = removePk(obj, TestClass);
 
+    expect(actual).toEqual(obj);
     expect(actual).not.toHaveProperty("pk");
   });
 
-  test("copies values across", () => {
-    const entity = {
+  test("only pk property", () => {
+    class TestClass {
+      pk: string;
+    }
+    const obj: TestClass = { pk: "pk" };
+
+    const actual = removePk(obj, TestClass);
+
+    expect(actual).toEqual({});
+    expect(actual).not.toHaveProperty("pk");
+  });
+
+  test("removes only pk property", () => {
+    class TestClass {
+      pk: string;
+      arrayField: number[];
+      booleanField: boolean;
+      objectField: object;
+      numberField: number;
+      stringField: string;
+    }
+    const obj: TestClass = {
       pk: "pk",
       arrayField: [1, 2, 3],
       booleanField: true,
@@ -21,15 +61,8 @@ describe("entity to DTO removing primary key", () => {
       numberField: 0,
       stringField: "",
     };
-    class dto {
-      arrayField: number[];
-      booleanField: boolean;
-      objectField: object;
-      numberField: number;
-      stringField: string;
-    }
 
-    const actual = entityToDtoRemovePk(dto, entity);
+    const actual = removePk(obj, TestClass);
 
     expect(actual).toEqual({
       arrayField: [1, 2, 3],
@@ -38,5 +71,6 @@ describe("entity to DTO removing primary key", () => {
       numberField: 0,
       stringField: "",
     });
+    expect(actual).not.toHaveProperty("pk");
   });
 });

@@ -1,16 +1,12 @@
 import {
   ClassConstructor,
-  ClassTransformOptions,
   instanceToPlain,
   plainToInstance,
 } from "class-transformer";
 
-export function entityToDtoRemovePk<T, V>(
-  dtoClass: ClassConstructor<T>,
-  entity: V,
-  options?: ClassTransformOptions,
-): T {
+//https://github.com/typeorm/typeorm/issues/4829
+export function removePk<T>(t: T, cls: ClassConstructor<T>): T {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { pk, ...plain } = instanceToPlain(entity);
-  return plainToInstance(dtoClass, plain, options);
+  const { pk, ...plain } = instanceToPlain(t);
+  return plainToInstance(cls, plain);
 }

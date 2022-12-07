@@ -11,7 +11,8 @@ import {
   Put,
 } from "@nestjs/common";
 import { CreateExampleDto } from "./dtos/create-example.dto";
-import { GetExampleDto } from "./dtos/get-example.dto";
+import { GetManyExampleDto } from "./dtos/get-many-example.dto";
+import { GetOneExampleDto } from "./dtos/get-one-example.dto";
 import { IdParam } from "./dtos/id-param";
 import { UpdateFullExampleDto } from "./dtos/update-full-example.dto";
 import { UpdatePartialExampleDto } from "./dtos/update-partial-example.dto";
@@ -28,12 +29,12 @@ export class ExamplesController {
   }
 
   @Get()
-  getAll(): Promise<GetExampleDto[]> {
-    return this.examplesService.findAll();
+  getMany(): Promise<GetManyExampleDto[]> {
+    return this.examplesService.findMany();
   }
 
   @Get(":id")
-  getOne(@Param() params: IdParam): Promise<GetExampleDto> {
+  getOne(@Param() params: IdParam): Promise<GetOneExampleDto> {
     return this.examplesService.findOne(params.id);
   }
 
@@ -50,7 +51,7 @@ export class ExamplesController {
   }
 
   @Post()
-  post(@Body() createExampleDto: CreateExampleDto): Promise<GetExampleDto> {
+  post(@Body() createExampleDto: CreateExampleDto): Promise<GetOneExampleDto> {
     return this.examplesService.create(createExampleDto);
   }
 

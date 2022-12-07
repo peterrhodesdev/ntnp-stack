@@ -1,13 +1,20 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { plainToInstance } from "class-transformer";
 import { Repository } from "typeorm";
 import { IdNotFoundException } from "../common/exceptions/id-not-found.exception";
-import { entityToDtoRemovePk } from "../common/utils/service.utils";
+import { removePk } from "../common/utils/service.utils";
 import { CreateExampleDto } from "./dtos/create-example.dto";
-import { GetExampleDto } from "./dtos/get-example.dto";
+import {
+  GetManyExampleDto,
+  KEYS as keysGetManyExampleDto,
+} from "./dtos/get-many-example.dto";
+import { GetOneExampleDto } from "./dtos/get-one-example.dto";
 import { UpdateFullExampleDto } from "./dtos/update-full-example.dto";
 import { UpdatePartialExampleDto } from "./dtos/update-partial-example.dto";
 import { Example } from "./example.entity";
+
+const ALIAS = "example";
 
 @Injectable()
 export class ExamplesService {
@@ -16,9 +23,10 @@ export class ExamplesService {
     private readonly examplesRepository: Repository<Example>,
   ) {}
 
-  async create(createDto: CreateExampleDto): Promise<GetExampleDto> {
+  async create(createDto: CreateExampleDto): Promise<GetOneExampleDto> {
     const savedEntity = await this.examplesRepository.save(createDto);
-    return entityToDtoRemovePk(GetExampleDto, savedEntity);
+    const entityWoPk = removePk(savedEntity, Example);
+    return plainToInstance(GetOneExampleDto, entityWoPk);
   }
 
   async delete(id: string): Promise<void> {
@@ -26,15 +34,19 @@ export class ExamplesService {
     if (deleteResult.affected !== 1) throw new IdNotFoundException(id);
   }
 
-  async findAll(): Promise<GetExampleDto[]> {
-    const entities = await this.examplesRepository.find();
-    return entities.map((entity) => entityToDtoRemovePk(GetExampleDto, entity));
+  async findMany(): Promise<GetManyExampleDto[]> {
+    const entities = await this.examplesRepository
+      .createQueryBuilder(ALIAS)
+      .select(keysGetManyExampleDto.map((key) => `${ALIAS}.${key}`))
+      .getMany();
+    return entities.map((entity) => plainToInstance(GetManyExampleDto, entity));
   }
 
-  async findOne(id: string): Promise<GetExampleDto> {
+  async findOne(id: string): Promise<GetOneExampleDto> {
     const entity = await this.examplesRepository.findOne({ where: { id } });
     if (entity === null) throw new IdNotFoundException(id);
-    return entityToDtoRemovePk(GetExampleDto, entity);
+    const entityWoPk = removePk(entity, Example);
+    return plainToInstance(GetOneExampleDto, entityWoPk);
   }
 
   async updateFull(

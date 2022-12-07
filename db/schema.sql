@@ -3,6 +3,7 @@ CREATE EXTENSION pgcrypto;
 CREATE TABLE example (
   pk BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   id UUID NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  title TEXT NOT NULL,
   boolean_field BOOLEAN NOT NULL, -- boolean
   float_field FLOAT NOT NULL, -- number
   integer_constrained_field INTEGER NOT NULL CHECK (integer_constrained_field BETWEEN 10 AND 999), -- number

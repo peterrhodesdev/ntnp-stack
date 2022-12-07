@@ -15,6 +15,9 @@ export class Example {
   })
   id: string;
 
+  @Column("text", { name: "title" })
+  title: string;
+
   @Column("boolean", { name: "boolean_field" })
   booleanField: boolean;
 

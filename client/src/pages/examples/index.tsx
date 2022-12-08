@@ -2,7 +2,7 @@ import { NextRouter, useRouter } from "next/router";
 import { useQuery } from "react-query";
 import HttpException from "../../exceptions/http.exception";
 import ServerApiService from "../../services/server-api.service";
-import GetManyExampleDto from "./get-many-example.dto";
+import GetManyExampleDto from "../../examples/dtos/get-many-example.dto";
 
 const RESOURCE = "examples";
 const serverApiService = new ServerApiService(RESOURCE);

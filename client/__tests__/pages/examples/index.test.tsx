@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import * as reactQuery from "react-query";
 import Examples from "../../../src/pages/examples";
-import GetManyExampleDto from "../../../src/pages/examples/get-many-example.dto";
+import GetManyExampleDto from "../../../src/examples/dtos/get-many-example.dto";
 
 jest.mock("react-query", () => ({
   useQuery: jest.fn(),

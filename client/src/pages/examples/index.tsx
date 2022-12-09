@@ -1,9 +1,9 @@
 import { useQuery } from "react-query";
-import Loading from "../../components/loading";
-import ErrorMessage from "../../components/error-message";
+import Loading from "../../common/components/loading";
+import ErrorMessage from "../../common/components/error-message";
 import ListExamples from "../../examples/components/list-examples";
 import { getMany, RESOURCE } from "../../examples/examples.service";
-import DataUndefinedMessage from "../../components/data-undefined-message";
+import DataUndefinedMessage from "../../common/components/data-undefined-message";
 
 export default function Examples() {
   const { isLoading, isError, error, data } = useQuery({

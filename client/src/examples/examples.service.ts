@@ -1,4 +1,4 @@
-import ServerApiService from "../services/server-api.service";
+import ServerApiService from "../common/services/server-api.service";
 import GetManyExampleDto from "./dtos/get-many-example.dto";
 import GetOneExampleDto from "./dtos/get-one-example.dto";
 

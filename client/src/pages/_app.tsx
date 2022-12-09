@@ -1,7 +1,7 @@
 import "../../styles/globals.css";
 import type { AppProps } from "next/app";
 import "reflect-metadata";
-import Layout from "../components/layout";
+import Layout from "../common/components/layout";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 const TITLE = "Title";

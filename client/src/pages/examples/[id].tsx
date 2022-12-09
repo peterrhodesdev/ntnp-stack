@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
-import DataUndefinedMessage from "../../components/data-undefined-message";
-import ErrorMessage from "../../components/error-message";
-import Loading from "../../components/loading";
+import DataUndefinedMessage from "../../common/components/data-undefined-message";
+import ErrorMessage from "../../common/components/error-message";
+import Loading from "../../common/components/loading";
 import ViewExample from "../../examples/components/view-example";
 import { getOne, RESOURCE } from "../../examples/examples.service";
 

@@ -1,7 +1,7 @@
+import ServerApiService from "../common/services/server-api.service";
 import { getMany, getOne } from "./examples.service";
-import ServerApiService from "../services/server-api.service";
 
-jest.mock("../services/server-api.service");
+jest.mock("../common/services/server-api.service");
 
 afterEach(() => jest.clearAllMocks());
 

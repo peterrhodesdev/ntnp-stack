@@ -3,8 +3,10 @@ import * as reactQuery from "react-query";
 import Examples from "../../../src/pages/examples";
 import GetManyExampleDto from "../../../src/examples/dtos/get-many-example.dto";
 
-jest.mock("react-query", () => ({
-  useQuery: jest.fn(),
+jest.mock("react-query", () => ({ useQuery: jest.fn() }));
+jest.mock("../../../src/examples/components/list-examples", () => ({
+  __esModule: true,
+  default: () => <div />,
 }));
 
 afterEach(() => jest.clearAllMocks());
@@ -28,4 +30,9 @@ test("renders a heading", () => {
 
   expect(spy).toHaveBeenCalledTimes(1);
   expect(elementHeading).toBeInTheDocument();
+});
+
+test.skip("renders loading", () => {
+  // TODO
+  expect(false).toBeTruthy();
 });

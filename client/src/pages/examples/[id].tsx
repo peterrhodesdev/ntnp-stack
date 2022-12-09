@@ -4,18 +4,19 @@ import DataUndefinedMessage from "../../common/components/data-undefined-message
 import ErrorMessage from "../../common/components/error-message";
 import Loading from "../../common/components/loading";
 import ViewExample from "../../examples/components/view-example";
-import { getOne, RESOURCE } from "../../examples/examples.service";
+import { getOne, getQueryKey } from "../../examples/examples.service";
+
+const INVALID_ID_MSG = "invalid id";
 
 export default function ExamplesId() {
   const router = useRouter();
   const { id } = router.query;
+  const parsedId: string | undefined = !Array.isArray(id) ? id : undefined;
   const { isLoading, isError, error, data } = useQuery({
-    queryKey: [RESOURCE, id],
+    queryKey: [getQueryKey(parsedId)],
     queryFn: async () => {
-      if (id === undefined || Array.isArray(id)) {
-        throw new Error("invalid id");
-      }
-      return await getOne(id);
+      if (parsedId === undefined) throw new Error(INVALID_ID_MSG);
+      return await getOne(parsedId);
     },
   });
 
@@ -27,7 +28,7 @@ export default function ExamplesId() {
 
   return (
     <>
-      <h1>Example: {id}</h1>
+      <h1>Example: {parsedId ?? INVALID_ID_MSG}</h1>
       {content}
     </>
   );

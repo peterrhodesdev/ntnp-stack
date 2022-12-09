@@ -1,9 +1,18 @@
 import ServerApiService from "../common/services/server-api.service";
-import { getMany, getOne } from "./examples.service";
+import { del, getMany, getOne, getQueryKey } from "./examples.service";
 
 jest.mock("../common/services/server-api.service");
 
 afterEach(() => jest.clearAllMocks());
+
+test("delete", async () => {
+  const id = "uuid";
+  (ServerApiService.prototype.delete as jest.Mock).mockImplementation(() => {});
+
+  await del(id);
+
+  expect(ServerApiService.prototype.delete).toHaveBeenCalledTimes(1);
+});
 
 test("get many", async () => {
   const data = [{ id: "" }];
@@ -28,4 +37,22 @@ test("get one", async () => {
 
   expect(ServerApiService.prototype.getOne).toHaveBeenCalledTimes(1);
   expect(actual).toEqual(data);
+});
+
+describe("get query key", () => {
+  test("id undefined", () => {
+    const id: string | undefined = undefined;
+
+    const actual = getQueryKey(id);
+
+    expect(actual).toEqual("examples");
+  });
+
+  test("with id", () => {
+    const id: string | undefined = "id";
+
+    const actual = getQueryKey(id);
+
+    expect(actual).toEqual("examplesid");
+  });
 });

@@ -1,12 +1,29 @@
 import { useRouter } from "next/router";
+import { useMutation, useQueryClient } from "react-query";
+import Button from "../../common/components/button";
 import GetManyExampleDto from "../dtos/get-many-example.dto";
+import { del, getQueryKey } from "../examples.service";
 
 type Props = {
   data: GetManyExampleDto[];
 };
 
+type MutateVariables = {
+  id: string;
+};
+
 export default function ListExamples(props: Props) {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const { isLoading, mutate } = useMutation({
+    mutationFn: (mv: MutateVariables) => del(mv.id),
+    onError: (error, variables: MutateVariables) =>
+      alert(`error deleting ${variables.id}`),
+    onSuccess: (result, variables: MutateVariables) => {
+      queryClient.invalidateQueries([getQueryKey()]);
+      queryClient.invalidateQueries([getQueryKey(variables.id)]);
+    },
+  });
 
   const handleRowClick = (example: GetManyExampleDto) => {
     router.push(`/examples/${example.id}`);
@@ -18,6 +35,7 @@ export default function ListExamples(props: Props) {
         <tr>
           <th>id</th>
           <th>title</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -29,6 +47,16 @@ export default function ListExamples(props: Props) {
           >
             <td>{example.id}</td>
             <td>{example.title}</td>
+            <td
+              onClick={(event) => event.stopPropagation()}
+              className="cursor-auto flex justify-center"
+            >
+              <Button
+                text="Delete"
+                onClickHandler={() => mutate({ id: example.id })}
+                isDisabled={isLoading}
+              />
+            </td>
           </tr>
         ))}
       </tbody>

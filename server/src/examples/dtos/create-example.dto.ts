@@ -13,6 +13,9 @@ import {
 } from "class-validator";
 
 export class CreateExampleDto {
+  @IsString()
+  title: string;
+
   @IsBoolean()
   booleanField: boolean;
 

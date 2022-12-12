@@ -18,27 +18,12 @@ export class Example {
   @Column("text", { name: "title" })
   title: string;
 
-  @Column("boolean", { name: "boolean_field" })
-  booleanField: boolean;
-
-  @Column("double precision", { name: "float_field", precision: 53 })
-  floatField: number;
-
-  @Column("integer", { name: "integer_constrained_field" })
-  integerConstrainedField: number;
-
   @Column("numeric", {
-    name: "numeric_field",
+    name: "amount",
     transformer: new ColumnNumericTransformer(),
   })
-  numericField: number;
+  amount: number;
 
-  @Column("text", { name: "text_nullable_field", nullable: true })
-  textNullableField: string | null;
-
-  @Column("timestamp with time zone", { name: "timestamptz_field" })
-  timestamptzField: Date;
-
-  @Column("character varying", { name: "varchar_constrained_field", length: 6 })
-  varcharConstrainedField: string;
+  @Column("timestamp with time zone", { name: "date_on" })
+  dateOn: Date;
 }

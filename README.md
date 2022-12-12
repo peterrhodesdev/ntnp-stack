@@ -12,30 +12,17 @@ Next.js, Tailwind CSS, Nest.js, and PostgreSQL.
 
 ## Commands
 
-Start the client (on port 3000):
-
 ```bash
+# Start the client (on port 3000):
 cd client
 npm run dev
-```
-
-Start the server (on port 5000):
-
-```bash
+# Start the server (on port 5000):
 cd server
 npm run start:dev
-```
-
-Restore the database:
-
-```bash
+# Restore the database:
 cd db
 ./run.sh restore
-```
-
-Generate models for TypeORM from database:
-
-```bash
+# Generate models for TypeORM from database:
 cd db
 ./run.sh generate-models
 ```

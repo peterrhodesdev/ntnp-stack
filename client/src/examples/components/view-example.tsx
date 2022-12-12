@@ -5,6 +5,16 @@ type Props = {
 };
 
 export default function ViewExample(props: Props) {
+  const tableRows: { property: string; value: string }[] = [
+    { property: "Id", value: props.data.id },
+    { property: "Title", value: props.data.title },
+    { property: "Amount", value: props.data.amount.toString() },
+    {
+      property: "Date On",
+      value: props.data.dateOn.toLocaleString(),
+    },
+  ];
+
   return (
     <table>
       <thead>
@@ -14,42 +24,12 @@ export default function ViewExample(props: Props) {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>id</td>
-          <td>{props.data.id}</td>
-        </tr>
-        <tr>
-          <td>title</td>
-          <td>{props.data.title}</td>
-        </tr>
-        <tr>
-          <td>booleanField</td>
-          <td>{props.data.booleanField.toString()}</td>
-        </tr>
-        <tr>
-          <td>floatField</td>
-          <td>{props.data.floatField}</td>
-        </tr>
-        <tr>
-          <td>integerConstrainedField</td>
-          <td>{props.data.integerConstrainedField}</td>
-        </tr>
-        <tr>
-          <td>numericField</td>
-          <td>{props.data.numericField}</td>
-        </tr>
-        <tr>
-          <td>textNullableField</td>
-          <td>{props.data.textNullableField ?? "null"}</td>
-        </tr>
-        <tr>
-          <td>timestamptzField</td>
-          <td>{props.data.timestamptzField.toLocaleString()}</td>
-        </tr>
-        <tr>
-          <td>varcharConstrainedField</td>
-          <td>{props.data.varcharConstrainedField}</td>
-        </tr>
+        {tableRows.map((row) => (
+          <tr key={row.property}>
+            <td>{row.property}</td>
+            <td>{row.value}</td>
+          </tr>
+        ))}
       </tbody>
     </table>
   );

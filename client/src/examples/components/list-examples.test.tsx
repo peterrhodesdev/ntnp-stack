@@ -73,3 +73,8 @@ test.skip("handles delete click", () => {
   // TODO
   expect(false).toBeTruthy();
 });
+
+test.skip("handles edit click", () => {
+  // TODO
+  expect(false).toBeTruthy();
+});

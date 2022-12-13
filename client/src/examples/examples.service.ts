@@ -1,6 +1,7 @@
 import ServerApiService from "../common/services/server-api.service";
 import GetManyExampleDto from "./dtos/get-many-example.dto";
 import GetOneExampleDto from "./dtos/get-one-example.dto";
+import UpdateFullExampleDto from "./dtos/update-full-example.dto";
 
 const RESOURCE = "examples";
 const serverApiService = new ServerApiService(RESOURCE);
@@ -19,4 +20,8 @@ export async function getMany(): Promise<GetManyExampleDto[]> {
 
 export async function getOne(id: string): Promise<GetOneExampleDto> {
   return serverApiService.getOne(id, GetOneExampleDto);
+}
+
+export async function updateFull(id: string, data: UpdateFullExampleDto) {
+  return serverApiService.put(id, data);
 }

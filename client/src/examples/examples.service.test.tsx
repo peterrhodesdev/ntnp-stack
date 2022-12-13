@@ -1,5 +1,12 @@
 import ServerApiService from "../common/services/server-api.service";
-import { del, getMany, getOne, getQueryKey } from "./examples.service";
+import UpdateFullExampleDto from "./dtos/update-full-example.dto";
+import {
+  del,
+  getMany,
+  getOne,
+  getQueryKey,
+  updateFull,
+} from "./examples.service";
 
 jest.mock("../common/services/server-api.service");
 
@@ -55,4 +62,14 @@ describe("get query key", () => {
 
     expect(actual).toEqual("examplesid");
   });
+});
+
+test("get one", async () => {
+  const id = "uuid";
+  const data = new UpdateFullExampleDto();
+  (ServerApiService.prototype.put as jest.Mock).mockImplementation(() => {});
+
+  await updateFull(id, data);
+
+  expect(ServerApiService.prototype.put).toHaveBeenCalledTimes(1);
 });

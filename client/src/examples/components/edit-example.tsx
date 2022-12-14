@@ -23,6 +23,9 @@ export default function EditExample(props: Props) {
   const [updatedData, setUpdatedData] = useState(
     UpdateFullExampleDto.from(props.data),
   );
+  const [originalData, setOriginalData] = useState(
+    UpdateFullExampleDto.from(props.data),
+  );
   const queryClient = useQueryClient();
   const { isLoading, mutate } = useMutation({
     mutationFn: (variables: MutateVariables) =>
@@ -32,6 +35,7 @@ export default function EditExample(props: Props) {
     onSuccess: (result, variables: MutateVariables) => {
       queryClient.invalidateQueries([getQueryKey()]);
       queryClient.invalidateQueries([getQueryKey(variables.id)]);
+      setOriginalData(variables.data);
       alert(`successfully updated ${variables.id}`);
     },
   });
@@ -99,7 +103,7 @@ export default function EditExample(props: Props) {
           Object.keys(updatedData).every(
             (key) =>
               updatedData[key as keyof UpdateFullExampleDto] ===
-              props.data[key as keyof UpdateFullExampleDto],
+              originalData[key as keyof UpdateFullExampleDto],
           )
         }
       />

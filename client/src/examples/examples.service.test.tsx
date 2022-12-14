@@ -1,6 +1,8 @@
 import ServerApiService from "../common/services/server-api.service";
+import CreateExampleDto from "./dtos/create-example.dto";
 import UpdateFullExampleDto from "./dtos/update-full-example.dto";
 import {
+  create,
   del,
   getMany,
   getOne,
@@ -11,6 +13,15 @@ import {
 jest.mock("../common/services/server-api.service");
 
 afterEach(() => jest.clearAllMocks());
+
+test("create", async () => {
+  const data = new CreateExampleDto();
+  (ServerApiService.prototype.post as jest.Mock).mockImplementation(() => {});
+
+  await create(data);
+
+  expect(ServerApiService.prototype.post).toHaveBeenCalledTimes(1);
+});
 
 test("delete", async () => {
   const id = "uuid";
@@ -64,7 +75,7 @@ describe("get query key", () => {
   });
 });
 
-test("get one", async () => {
+test("update full", async () => {
   const id = "uuid";
   const data = new UpdateFullExampleDto();
   (ServerApiService.prototype.put as jest.Mock).mockImplementation(() => {});

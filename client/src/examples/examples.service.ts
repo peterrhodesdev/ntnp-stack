@@ -1,10 +1,15 @@
 import ServerApiService from "../common/services/server-api.service";
+import CreateExampleDto from "./dtos/create-example.dto";
 import GetManyExampleDto from "./dtos/get-many-example.dto";
 import GetOneExampleDto from "./dtos/get-one-example.dto";
 import UpdateFullExampleDto from "./dtos/update-full-example.dto";
 
 const RESOURCE = "examples";
 const serverApiService = new ServerApiService(RESOURCE);
+
+export async function create(data: CreateExampleDto) {
+  return serverApiService.post(data);
+}
 
 export function getQueryKey(id: string | undefined = "") {
   return `${RESOURCE}${id}`;

@@ -78,3 +78,8 @@ test.skip("handles edit click", () => {
   // TODO
   expect(false).toBeTruthy();
 });
+
+test.skip("handles create click", () => {
+  // TODO
+  expect(false).toBeTruthy();
+});

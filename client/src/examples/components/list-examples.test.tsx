@@ -9,25 +9,28 @@ jest.mock("react-query", () => ({
   useMutation: jest.fn(),
   useQueryClient: jest.fn(),
 }));
+jest.mock("../../../src/examples/components/create-example", () => ({
+  __esModule: true,
+  default: () => <>create example</>,
+}));
 
 const mockRouter = { push: jest.fn() };
 const mockQueryClient = jest.fn();
-const mockMutate = jest.fn();
+const mockMutation = {
+  isLoading: false,
+  mutate: jest.fn(),
+};
 
 beforeEach(() => {
   (useQueryClient as jest.Mock).mockReturnValue(mockQueryClient);
-  const isLoading = false;
-  (useMutation as jest.Mock).mockReturnValue(() => ({
-    isLoading,
-    mutate: mockMutate,
-  }));
+  (useMutation as jest.Mock).mockReturnValue(mockMutation);
+  (useRouter as jest.Mock).mockReturnValue(mockRouter);
 });
 
 afterEach(() => jest.clearAllMocks());
 
 test("empty data", () => {
   const data: GetManyExampleDto[] = [];
-  (useRouter as jest.Mock).mockReturnValue(mockRouter);
 
   render(<ListExamples data={data} />);
   const elementTable = screen.queryByRole("table");
@@ -43,7 +46,6 @@ test("renders data in a table", () => {
     { id: "id1", title: "t1" },
     { id: "id2", title: "t2" },
   ];
-  (useRouter as jest.Mock).mockReturnValue(mockRouter);
 
   render(<ListExamples data={data} />);
   const elementTable = screen.queryByRole("table");
@@ -59,7 +61,6 @@ test("handles table row click", () => {
     { id: "id1", title: "t1" },
     { id: "id2", title: "t2" },
   ];
-  (useRouter as jest.Mock).mockReturnValue(mockRouter);
 
   render(<ListExamples data={data} />);
   const elementTable = screen.getByRole("table");
@@ -69,17 +70,47 @@ test("handles table row click", () => {
   expect(mockRouter.push).toHaveBeenCalledWith("/examples/id1");
 });
 
-test.skip("handles delete click", () => {
-  // TODO
-  expect(false).toBeTruthy();
+test("handles create new example click", () => {
+  const data: GetManyExampleDto[] = [];
+
+  render(<ListExamples data={data} />);
+
+  // initially element should be hidden
+  const elementHidden = screen.queryByText("create example");
+  expect(elementHidden).not.toBeInTheDocument();
+
+  // unhide the element
+  const elementSetShowCreate = screen.getByTestId("set-show-create");
+  fireEvent.click(elementSetShowCreate);
+
+  const elementUnhidden = screen.queryByText("create example");
+  expect(elementUnhidden).toBeInTheDocument();
 });
 
-test.skip("handles edit click", () => {
-  // TODO
-  expect(false).toBeTruthy();
+test("handles edit click", () => {
+  const data: GetManyExampleDto[] = [
+    { id: "id1", title: "t1" },
+    { id: "id2", title: "t2" },
+  ];
+
+  render(<ListExamples data={data} />);
+  const elementButtonContainer = screen.getByTestId("button-container-id1");
+  fireEvent.click(elementButtonContainer.children[0]);
+
+  expect(mockRouter.push).toHaveBeenCalledTimes(1);
+  expect(mockRouter.push).toHaveBeenCalledWith("/examples/id1?edit=true");
 });
 
-test.skip("handles create click", () => {
-  // TODO
-  expect(false).toBeTruthy();
+test("handles delete click", () => {
+  const data: GetManyExampleDto[] = [
+    { id: "id1", title: "t1" },
+    { id: "id2", title: "t2" },
+  ];
+
+  render(<ListExamples data={data} />);
+  const elementButtonContainer = screen.getByTestId("button-container-id1");
+  fireEvent.click(elementButtonContainer.children[1]);
+
+  expect(mockMutation.mutate).toHaveBeenCalledTimes(1);
+  expect(mockMutation.mutate).toHaveBeenCalledWith({ id: "id1" });
 });

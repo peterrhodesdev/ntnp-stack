@@ -47,6 +47,7 @@ export default function ListExamples(props: Props) {
         <div
           className="flex flex-row justify-between cursor-pointer bg-slate-100 rounded-lg m-0 p-2"
           onClick={() => setShowCreate(!showCreate)}
+          data-testid="set-show-create"
         >
           <h2 className="inline m-0">Create New Example</h2>
           <h2 className="inline m-0">{showCreate ? "-" : "+"}</h2>
@@ -78,7 +79,10 @@ export default function ListExamples(props: Props) {
                 onClick={(event) => event.stopPropagation()}
                 className="cursor-auto"
               >
-                <div className="flex flex-row justify-evenly">
+                <div
+                  className="flex flex-row justify-evenly"
+                  data-testid={`button-container-${example.id}`}
+                >
                   <Button
                     text="Edit"
                     onClickHandler={() => handleEditClick(example.id)}
